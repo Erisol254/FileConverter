@@ -177,7 +177,8 @@ namespace FileConverter.ConversionJobs
                 {
                     Debug.Log($"Apply rotation: {rotateAngleInDegrees}°.");
 
-                    image.Rotate(rotateAngleInDegrees);
+                    // The rotation settings are counter clockwise (90° is "Rotate left"), ImageMagick rotates clockwise.
+                    image.Rotate(-rotateAngleInDegrees);
                 }
             }
 

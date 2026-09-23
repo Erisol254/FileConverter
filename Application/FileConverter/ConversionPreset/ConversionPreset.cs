@@ -539,6 +539,9 @@ namespace FileConverter
                     this.InitializeSettingsValue(ConversionPreset.ConversionSettingKeys.ImageRotation, "0");
                     this.InitializeSettingsValue(ConversionPreset.ConversionSettingKeys.ImageClampSizePowerOf2, "False");
                     this.InitializeSettingsValue(ConversionPreset.ConversionSettingKeys.ImageMaximumSize, "0");
+
+                    // Only used when the input is a video or an animated gif.
+                    this.InitializeSettingsValue(ConversionPreset.ConversionSettingKeys.VideoFramesPerSecond, "15");
                     break;
 
                 case OutputType.Ico:

@@ -16,6 +16,7 @@ namespace FileConverter.ConversionJobs
     {
         private readonly Regex durationRegex = new Regex(@"Duration:\s*([0-9][0-9]):([0-9][0-9]):([0-9][0-9])\.([0-9][0-9]),.*bitrate:\s*([0-9]+) kb\/s");
         private readonly Regex progressRegex = new Regex(@"size=\s*([0-9]+).*time=([0-9][0-9]):([0-9][0-9]):([0-9][0-9]).([0-9][0-9])\s+bitrate=\s*([0-9]+.[0-9])");
+        private readonly Regex showInfoFrameTimeRegex = new Regex(@"\] n:\s*[0-9]+ pts:\s*-?[0-9]+ pts_time:([0-9]+(?:\.[0-9]+)?)");
 
         private TimeSpan fileDuration;
         private TimeSpan actualConvertedDuration;
@@ -406,6 +407,30 @@ namespace FileConverter.ConversionJobs
 
                     break;
 
+                case OutputType.Webp:
+                    {
+                        // Animated webp from a video or an animated gif (still images are converted by ImageMagick).
+                        // https://ffmpeg.org/ffmpeg-codecs.html#libwebp
+                        int encodingQuality = this.ConversionPreset.GetSettingsValue<int>(ConversionPreset.ConversionSettingKeys.ImageQuality);
+                        int framesPerSecond = this.ConversionPreset.GetSettingsValue<int>(ConversionPreset.ConversionSettingKeys.VideoFramesPerSecond);
+
+                        string transformArgs = ConversionJob_FFMPEG.ComputeAnimatedImageTransformArgs(this.ConversionPreset, framesPerSecond);
+
+                        // libwebp_anim writes the whole file at the end, so ffmpeg stats have no time to report progress:
+                        // showinfo logs the time of each frame sent to the encoder instead (see ParseFFMPEGOutput).
+                        transformArgs += (transformArgs.Length > 0 ? "," : string.Empty) + "showinfo=checksum=0";
+                        string videoFilteringArgs = ConversionJob_FFMPEG.Encapsulate("-vf", transformArgs);
+
+                        // libwebp_anim only stores what changes between frames. Loop 0 plays the animation forever, like a gif.
+                        string encoderArgs = $"-c:v libwebp_anim -lossless 0 -quality {encodingQuality} -loop 0 -an {videoFilteringArgs}";
+
+                        string arguments = $"{baseArgs} -i \"{this.InputFilePath}\" {encoderArgs} \"{this.OutputFilePath}\"";
+
+                        this.ffmpegArgumentStringByPass.Add(new FFMpegPass(arguments));
+                    }
+
+                    break;
+
                 default:
                     throw new NotImplementedException("Converter not implemented for output file type " +
                                                       this.ConversionPreset.OutputType);
@@ -446,6 +471,11 @@ namespace FileConverter.ConversionJobs
                 {
                     using (Process exeProcess = Process.Start(this.ffmpegProcessStartInfo))
                     {
+                        // -progress pipe:1 writes to stdout: drain it, or ffmpeg blocks forever once the pipe buffer is full
+                        // (conversions longer than a few seconds never finished).
+                        exeProcess.OutputDataReceived += (sender, args) => { };
+                        exeProcess.BeginOutputReadLine();
+
                         using (StreamReader reader = exeProcess.StandardError)
                         {
                             while (!reader.EndOfStream)
@@ -521,6 +551,14 @@ namespace FileConverter.ConversionJobs
                     this.actualConvertedDuration = new TimeSpan(0, hours, minutes, seconds, milliseconds);
 
                     this.Progress = this.actualConvertedDuration.Ticks / (float)this.fileDuration.Ticks;
+                    return;
+                }
+
+                match = this.showInfoFrameTimeRegex.Match(input);
+                if (match.Success)
+                {
+                    double frameTimeInSeconds = double.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+                    this.Progress = (float)Math.Min(1d, frameTimeInSeconds / this.fileDuration.TotalSeconds);
                     return;
                 }
             }

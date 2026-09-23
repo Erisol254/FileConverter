@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+- New: Convert videos and animated gifs to animated webp with the webp presets (ffmpeg libwebp_anim encoder). Webp presets have a new frames per second setting (15 by default) used for these inputs.
+- Fixes: Issue where ffmpeg conversions lasting more than a few seconds never finished (the -progress output written to stdout was never read, so ffmpeg blocked once the pipe was full).
+- Fixes: Issue where the rotate left/right presets turned still images the wrong way (ImageMagick rotates clockwise, the rotation settings are counter clockwise).
+
 ## Version 2.2
 
 - New: AMD AMF hardware acceleration option for MP4/MKV H.264 conversions (thanks to bharatvansh).

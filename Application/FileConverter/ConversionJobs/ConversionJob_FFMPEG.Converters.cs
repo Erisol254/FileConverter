@@ -3,6 +3,7 @@
 namespace FileConverter.ConversionJobs
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
 
     using FileConverter.Controls;
@@ -115,6 +116,64 @@ namespace FileConverter.ConversionJobs
             }
 
             return transformArgs;
+        }
+
+        /// <summary>
+        /// Compute the filters needed to turn a video or an animated image into an animated image, using the image settings of the preset.
+        /// </summary>
+        /// <param name="conversionPreset">The conversion preset.</param>
+        /// <param name="framesPerSecond">The frame rate of the animation, or 0 to keep the input frame rate.</param>
+        /// <returns>The filter chain (fps=..., scale=..., transpose=...).</returns>
+        private static string ComputeAnimatedImageTransformArgs(ConversionPreset conversionPreset, int framesPerSecond)
+        {
+            List<string> filters = new List<string>();
+
+            // Drop frames first so the following filters process as few frames as possible.
+            if (framesPerSecond > 0)
+            {
+                filters.Add($"fps={framesPerSecond}");
+            }
+
+            float scaleFactor = conversionPreset.GetSettingsValue<float>(ConversionPreset.ConversionSettingKeys.ImageScale);
+            if (scaleFactor > 0f && Math.Abs(scaleFactor - 1f) >= 0.005f)
+            {
+                string scale = scaleFactor.ToString("0.###", CultureInfo.InvariantCulture);
+                filters.Add($"scale=iw*{scale}:ih*{scale}");
+            }
+
+            // Same convention as the rotation settings: 90° is counter clockwise and 270° is clockwise.
+            float rotationAngleInDegrees = conversionPreset.GetSettingsValue<float>(ConversionPreset.ConversionSettingKeys.ImageRotation);
+            if (Math.Abs(rotationAngleInDegrees - 90f) <= 0.05f)
+            {
+                filters.Add("transpose=2");
+            }
+            else if (Math.Abs(rotationAngleInDegrees - 180f) <= 0.05f)
+            {
+                filters.Add("vflip,hflip");
+            }
+            else if (Math.Abs(rotationAngleInDegrees - 270f) <= 0.05f)
+            {
+                filters.Add("transpose=1");
+            }
+            else if (Math.Abs(rotationAngleInDegrees) >= 0.05f)
+            {
+                Diagnostics.Debug.LogError($"Unsupported rotation: {rotationAngleInDegrees}°");
+            }
+
+            // Fit the frames in the nearest power of 2 square, like the ImageMagick conversion does for still images.
+            if (conversionPreset.GetSettingsValue<bool>(ConversionPreset.ConversionSettingKeys.ImageClampSizePowerOf2))
+            {
+                const string PowerOf2Size = "pow(2,floor(log(min(iw,ih))/log(2)+0.000001))";
+                filters.Add($"scale=w='{PowerOf2Size}':h='{PowerOf2Size}':force_original_aspect_ratio=decrease");
+            }
+
+            uint maximumSize = conversionPreset.GetSettingsValue<uint>(ConversionPreset.ConversionSettingKeys.ImageMaximumSize);
+            if (maximumSize > 0)
+            {
+                filters.Add($"scale=w='min(iw,{maximumSize})':h='min(ih,{maximumSize})':force_original_aspect_ratio=decrease");
+            }
+
+            return string.Join(",", filters);
         }
 
         /// <summary>

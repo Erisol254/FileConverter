@@ -43,6 +43,16 @@ namespace FileConverter.ConversionJobs
                 return new ConversionJob_ImageMagick(conversionPreset, inputFilePath);
             }
 
+            if (conversionPreset.OutputType == OutputType.Webp)
+            {
+                // ImageMagick only reads the first frame, so videos and animated gifs go through ffmpeg to keep every frame.
+                string inputCategory = Helpers.GetExtensionCategory(inputFileExtension);
+                if (inputCategory == Helpers.InputCategoryNames.Video || inputCategory == Helpers.InputCategoryNames.AnimatedImage)
+                {
+                    return new ConversionJob_FFMPEG(conversionPreset, inputFilePath);
+                }
+            }
+
             if (conversionPreset.OutputType == OutputType.Avif ||
                 conversionPreset.OutputType == OutputType.Jpg ||
                 conversionPreset.OutputType == OutputType.Png ||

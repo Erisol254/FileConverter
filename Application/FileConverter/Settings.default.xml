@@ -571,12 +571,30 @@
         <InputTypes>tif</InputTypes>
         <InputTypes>tiff</InputTypes>
         <InputTypes>webp</InputTypes>
+        <InputTypes>gif</InputTypes>
+        <InputTypes>3gp</InputTypes>
+        <InputTypes>3gpp</InputTypes>
+        <InputTypes>avi</InputTypes>
+        <InputTypes>bik</InputTypes>
+        <InputTypes>flv</InputTypes>
+        <InputTypes>m4v</InputTypes>
+        <InputTypes>mkv</InputTypes>
+        <InputTypes>mov</InputTypes>
+        <InputTypes>mp4</InputTypes>
+        <InputTypes>mpg</InputTypes>
+        <InputTypes>mpeg</InputTypes>
+        <InputTypes>ogv</InputTypes>
+        <InputTypes>rm</InputTypes>
+        <InputTypes>ts</InputTypes>
+        <InputTypes>webm</InputTypes>
+        <InputTypes>wmv</InputTypes>
         <InputPostConversionAction>None</InputPostConversionAction>
         <Settings Key="ImageQuality" Value="40" />
         <Settings Key="ImageScale" Value="1" />
         <Settings Key="ImageRotation" Value="0" />
         <Settings Key="ImageClampSizePowerOf2" Value="False" />
         <Settings Key="ImageMaximumSize" Value="0" />
+        <Settings Key="VideoFramesPerSecond" Value="15" />
         <OutputFileNameTemplate>(p)(f)</OutputFileNameTemplate>
     </ConversionPreset>
     <ConversionPreset Name="To Avif" OutputType="Avif" IsDefaultSettings="true">
@@ -893,12 +911,30 @@
         <InputTypes>tif</InputTypes>
         <InputTypes>tiff</InputTypes>
         <InputTypes>webp</InputTypes>
+        <InputTypes>gif</InputTypes>
+        <InputTypes>3gp</InputTypes>
+        <InputTypes>3gpp</InputTypes>
+        <InputTypes>avi</InputTypes>
+        <InputTypes>bik</InputTypes>
+        <InputTypes>flv</InputTypes>
+        <InputTypes>m4v</InputTypes>
+        <InputTypes>mkv</InputTypes>
+        <InputTypes>mov</InputTypes>
+        <InputTypes>mp4</InputTypes>
+        <InputTypes>mpg</InputTypes>
+        <InputTypes>mpeg</InputTypes>
+        <InputTypes>ogv</InputTypes>
+        <InputTypes>rm</InputTypes>
+        <InputTypes>ts</InputTypes>
+        <InputTypes>webm</InputTypes>
+        <InputTypes>wmv</InputTypes>
         <InputPostConversionAction>None</InputPostConversionAction>
         <Settings Key="ImageQuality" Value="40" />
         <Settings Key="ImageScale" Value="0.75" />
         <Settings Key="ImageRotation" Value="0" />
         <Settings Key="ImageClampSizePowerOf2" Value="False" />
         <Settings Key="ImageMaximumSize" Value="0" />
+        <Settings Key="VideoFramesPerSecond" Value="15" />
         <OutputFileNameTemplate>(p)(f)</OutputFileNameTemplate>
     </ConversionPreset>
     <ConversionPreset Name="Scale 75%/To Jpg" OutputType="Jpg" IsDefaultSettings="true">
@@ -1124,12 +1160,30 @@
         <InputTypes>tif</InputTypes>
         <InputTypes>tiff</InputTypes>
         <InputTypes>webp</InputTypes>
+        <InputTypes>gif</InputTypes>
+        <InputTypes>3gp</InputTypes>
+        <InputTypes>3gpp</InputTypes>
+        <InputTypes>avi</InputTypes>
+        <InputTypes>bik</InputTypes>
+        <InputTypes>flv</InputTypes>
+        <InputTypes>m4v</InputTypes>
+        <InputTypes>mkv</InputTypes>
+        <InputTypes>mov</InputTypes>
+        <InputTypes>mp4</InputTypes>
+        <InputTypes>mpg</InputTypes>
+        <InputTypes>mpeg</InputTypes>
+        <InputTypes>ogv</InputTypes>
+        <InputTypes>rm</InputTypes>
+        <InputTypes>ts</InputTypes>
+        <InputTypes>webm</InputTypes>
+        <InputTypes>wmv</InputTypes>
         <InputPostConversionAction>None</InputPostConversionAction>
         <Settings Key="ImageQuality" Value="40" />
         <Settings Key="ImageScale" Value="0.25" />
         <Settings Key="ImageRotation" Value="0" />
         <Settings Key="ImageClampSizePowerOf2" Value="False" />
         <Settings Key="ImageMaximumSize" Value="0" />
+        <Settings Key="VideoFramesPerSecond" Value="15" />
         <OutputFileNameTemplate>(p)(f)</OutputFileNameTemplate>
     </ConversionPreset>
     <ConversionPreset Name="Scale 25%/To Jpg" OutputType="Jpg" IsDefaultSettings="true">
@@ -1667,12 +1721,30 @@
         <InputTypes>dds</InputTypes>
         <InputTypes>heic</InputTypes>
         <InputTypes>jfif</InputTypes>
+        <InputTypes>gif</InputTypes>
+        <InputTypes>3gp</InputTypes>
+        <InputTypes>3gpp</InputTypes>
+        <InputTypes>avi</InputTypes>
+        <InputTypes>bik</InputTypes>
+        <InputTypes>flv</InputTypes>
+        <InputTypes>m4v</InputTypes>
+        <InputTypes>mkv</InputTypes>
+        <InputTypes>mov</InputTypes>
+        <InputTypes>mp4</InputTypes>
+        <InputTypes>mpg</InputTypes>
+        <InputTypes>mpeg</InputTypes>
+        <InputTypes>ogv</InputTypes>
+        <InputTypes>rm</InputTypes>
+        <InputTypes>ts</InputTypes>
+        <InputTypes>webm</InputTypes>
+        <InputTypes>wmv</InputTypes>
         <InputPostConversionAction>None</InputPostConversionAction>
         <Settings Key="ImageQuality" Value="40" />
         <Settings Key="ImageScale" Value="1" />
         <Settings Key="ImageRotation" Value="90" />
         <Settings Key="ImageClampSizePowerOf2" Value="False" />
         <Settings Key="ImageMaximumSize" Value="0" />
+        <Settings Key="VideoFramesPerSecond" Value="15" />
         <OutputFileNameTemplate>(p)(f)</OutputFileNameTemplate>
     </ConversionPreset>
     <ConversionPreset Name="Rotate left/To Jpg" OutputType="Jpg" IsDefaultSettings="true">
@@ -1926,12 +1998,30 @@
         <InputTypes>tif</InputTypes>
         <InputTypes>tiff</InputTypes>
         <InputTypes>webp</InputTypes>
+        <InputTypes>gif</InputTypes>
+        <InputTypes>3gp</InputTypes>
+        <InputTypes>3gpp</InputTypes>
+        <InputTypes>avi</InputTypes>
+        <InputTypes>bik</InputTypes>
+        <InputTypes>flv</InputTypes>
+        <InputTypes>m4v</InputTypes>
+        <InputTypes>mkv</InputTypes>
+        <InputTypes>mov</InputTypes>
+        <InputTypes>mp4</InputTypes>
+        <InputTypes>mpg</InputTypes>
+        <InputTypes>mpeg</InputTypes>
+        <InputTypes>ogv</InputTypes>
+        <InputTypes>rm</InputTypes>
+        <InputTypes>ts</InputTypes>
+        <InputTypes>webm</InputTypes>
+        <InputTypes>wmv</InputTypes>
         <InputPostConversionAction>None</InputPostConversionAction>
         <Settings Key="ImageQuality" Value="40" />
         <Settings Key="ImageScale" Value="1" />
         <Settings Key="ImageRotation" Value="270" />
         <Settings Key="ImageClampSizePowerOf2" Value="False" />
         <Settings Key="ImageMaximumSize" Value="0" />
+        <Settings Key="VideoFramesPerSecond" Value="15" />
         <OutputFileNameTemplate>(p)(f)</OutputFileNameTemplate>
     </ConversionPreset>
     <ConversionPreset Name="Rotate right/To Jpg" OutputType="Jpg" IsDefaultSettings="true">

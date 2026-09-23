@@ -615,6 +615,65 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="WebpSettingsDataTemplate" DataType="{x:Type fileConverter:ConversionPreset}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!--Quality-->
+            <Label Content="{x:Static project:Resources.Quality}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+            <Slider Grid.Row="0" Grid.Column="1" x:Name="QualitySlider" Value="{Binding Settings, ConverterParameter=ImageQuality|System.Double, Converter={StaticResource ConversionSettingsToValueType}, Mode=TwoWay, TargetNullValue=25}"
+                        Margin="0,5,0,0" VerticalAlignment="Top" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsSelectionRangeEnabled="True" SelectionStart="30" SelectionEnd="100" Minimum="0" Maximum="100" TickPlacement="BottomRight" SmallChange="5" LargeChange="15" TickFrequency="5" Foreground="{DynamicResource MainDarkBrush}" />
+            <!--Scale-->
+            <Label Content="{x:Static project:Resources.Scale}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider x:Name="ScaleSlider" Grid.Column="0" Value="{Binding Settings, ConverterParameter=ImageScale|System.Double, ConverterCulture={x:Static globalization:CultureInfo.InvariantCulture}, Converter={StaticResource ConversionSettingsToValueType}, Mode=TwoWay}" Margin="0,2,0,0" VerticalAlignment="Top" IsSnapToTickEnabled="True" Minimum="0.075" Maximum="16" SmallChange="0.075" LargeChange="0.25" TickPlacement="BottomRight" Ticks="0.075 0.125 0.25 0.5 0.75 1 1.25 1.5 1.75 2 3 4 6 8 12 16" Foreground="{DynamicResource MainDarkBrush}"/>
+                <Label Grid.Row="0"  Grid.Column="1">
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource FormatStringConverter}" Mode="OneWay">
+                            <MultiBinding.ConverterParameter>{0:P1}</MultiBinding.ConverterParameter>
+                            <Binding ElementName="ScaleSlider" Path="Value" Mode="OneWay"/>
+                        </MultiBinding>
+                    </Label.Content>
+                </Label>
+                <CheckBox Grid.Row="1" Grid.Column="0" Margin="0,5,0,5"
+                              Content="{x:Static project:Resources.ClampToLowestPowerOfTwoSize}"
+                              IsChecked="{Binding Settings, ConverterParameter=ImageClampSizePowerOf2|System.Boolean, Converter={StaticResource ConversionSettingsToValueType}, Mode=TwoWay}" />
+            </Grid>
+            <!--Rotate-->
+            <Label Content="{x:Static project:Resources.Rotate}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"/>
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <RadioButton Content="{x:Static project:Resources.ZeroDegreesRotationTitle}" ToolTip="{x:Static project:Resources.ZeroDegreesRotationTooltip}" Margin="0,7,7,7"
+                                 IsChecked="{Binding Settings, ConverterParameter=ImageRotation|0, Converter={StaticResource ConversionSettingsEquals}, Mode=TwoWay}"/>
+                <RadioButton Content="{x:Static project:Resources.NinetyDegreesRotationTitle}" ToolTip="{x:Static project:Resources.NinetyDegreesRotationTooltip}" Margin="7"
+                                 IsChecked="{Binding Settings, ConverterParameter=ImageRotation|90, Converter={StaticResource ConversionSettingsEquals}, Mode=TwoWay}"/>
+                <RadioButton Content="{x:Static project:Resources.OneEightyDegreesRotationTitle}" ToolTip="{x:Static project:Resources.OneEightyDegreesRotationTooltip}" Margin="7"
+                                 IsChecked="{Binding Settings, ConverterParameter=ImageRotation|180, Converter={StaticResource ConversionSettingsEquals}, Mode=TwoWay}"/>
+                <RadioButton Content="{x:Static project:Resources.TwoSeventyDegreesRotationTitle}" ToolTip="{x:Static project:Resources.TwoSeventyDegreesRotationTooltip}" Margin="7"
+                                 IsChecked="{Binding Settings, ConverterParameter=ImageRotation|270, Converter={StaticResource ConversionSettingsEquals}, Mode=TwoWay}"/>
+            </StackPanel>
+            <!--Frames per second (only used for videos and animated gifs)-->
+            <Label Content="{x:Static project:Resources.FramesPerSecond}" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right"/>
+            <Slider x:Name="FramesPerSecondSlider" Grid.Row="3" Grid.Column="1" Value="{Binding Settings, ConverterParameter=VideoFramesPerSecond|System.Int32, Converter={StaticResource ConversionSettingsToValueType}, Mode=TwoWay}"
+                            Margin="0,2,0,0" VerticalAlignment="Top" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True" IsSelectionRangeEnabled="True" SelectionStart="10" SelectionEnd="20" Minimum="1" Maximum="30" TickPlacement="BottomRight" SmallChange="1" LargeChange="4" TickFrequency="1" Foreground="{DynamicResource MainDarkBrush}" />
+        </Grid>
+    </DataTemplate>
+
     <Style x:Key="OutputTypeSelectorStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="ContentTemplate" Value="{StaticResource EmptyDataTemplate}"/>
         <Style.Triggers>
@@ -658,7 +717,7 @@
                 <Setter Property="ContentTemplate" Value="{StaticResource WebmSettingsDataTemplate}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding OutputType}" Value="Webp">
-                <Setter Property="ContentTemplate" Value="{StaticResource JpgSettingsDataTemplate}"/>
+                <Setter Property="ContentTemplate" Value="{StaticResource WebpSettingsDataTemplate}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

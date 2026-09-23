@@ -217,8 +217,11 @@ namespace FileConverter
                 case OutputType.Ico:
                 case OutputType.Jpg:
                 case OutputType.Png:
-                case OutputType.Webp:
                     return category == InputCategoryNames.Image || category == InputCategoryNames.Document || category == InputCategoryNames.AnimatedImage;
+
+                case OutputType.Webp:
+                    // Videos and animated images are converted to animated webp.
+                    return category == InputCategoryNames.Image || category == InputCategoryNames.Document || category == InputCategoryNames.AnimatedImage || category == InputCategoryNames.Video;
 
                 case OutputType.Gif:
                     return category == InputCategoryNames.Image || category == InputCategoryNames.Video || category == InputCategoryNames.AnimatedImage;
